@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {Pokemon} from "../class/pokemon/pokemon";
+import { PokemonApiService } from '../pokemon-api.service';
 
 @Component({
     selector: 'app-home',
@@ -30,5 +31,14 @@ export class HomePage {
         image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
     }]
 
+
+  constructor(private pokemonApi : PokemonApiService){
+    this.pokemonApi.getAllPokemons().subscribe((res) => {
+      console.log(res)
+    }, error => {
+      console.log(error)
+    }
+    );
+  }
 
 }
