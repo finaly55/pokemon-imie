@@ -14,4 +14,8 @@ export class PokemonApiService {
   getAllPokemons(){
     return this.http.get(this.apiUrl + "/?limit=964")
   }
+
+  getPokemonByUrl(url){
+    return this.http.get(url)
+  }
 }

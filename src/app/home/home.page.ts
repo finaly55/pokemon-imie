@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {PokemonApiService} from '../services/pokemon-api.service';
-import {removeSummaryDuplicates} from '@angular/compiler';
+import { Component } from '@angular/core';
+import { PokemonApiService } from '../services/pokemon-api.service';
+import { removeSummaryDuplicates } from '@angular/compiler';
 import {Pokemon} from "../class/pokemon/pokemon";
 import {AlertController, ToastController} from "@ionic/angular";
 
@@ -11,6 +11,11 @@ import {AlertController, ToastController} from "@ionic/angular";
 })
 export class HomePage {
     listePokemonTeam: Pokemon[] = [];
+
+
+    unPokemon : Pokemon;
+    id : number;
+    image : any;
 
     //ARRAY POKEMON
     listePokemon: Pokemon[] = [{
@@ -34,212 +39,40 @@ export class HomePage {
     }, {
         nom: "Pikachu",
         image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
     }]
 
 
-    constructor(private pokemonApi: PokemonApiService, public alertController: AlertController, public toastController: ToastController) {
 
+    constructor(private pokemonApi: PokemonApiService, public alertController: AlertController, public toastController: ToastController) {
+        this.pokemonApi.getAllPokemons().subscribe((res) => {
+                let result : any = res
+                console.log(result)
+
+                for(var i = 0; i < result.count; i++){
+                    this.unPokemon = new Pokemon()
+                    this.pokemonApi.getPokemonByUrl(result.results[i].url).subscribe((res) => {
+                        let pokemon : any = res
+                        this.id = pokemon.id
+                        this.image = pokemon.sprites.front_default
+
+                        if(this.image != null){
+                            const unPokemon : Pokemon =
+                                {
+                                    nom : pokemon.forms[0].name,
+                                    image: this.image
+                                }
+                            this.listePokemon.push(unPokemon)
+                        }
+                    })
+                }
+
+
+
+            }, error => {
+                console.log(error)
+            }
+        );
+        console.log(this.listePokemon.length)
     }
 
     setTeam(pokemon: Pokemon) {
@@ -355,7 +188,7 @@ export class HomePage {
     }
 
     async setPokemonTeamToast(add: Boolean) {
-        if (add){
+        if (add) {
             const toast = await this.toastController.create({
                 message: 'Pokemon ajouté à votre team',
                 duration: 1000,
@@ -364,19 +197,6 @@ export class HomePage {
                 color: 'success'
             });
             toast.present();
-
-        }
-        else{
-            const toast = await this.toastController.create({
-                message: 'Pokemon retiré à votre team',
-                duration: 1000,
-                position: 'top',
-                showCloseButton: false,
-                color: 'danger'
-
-            });
-            toast.present();
         }
     }
-
 }
