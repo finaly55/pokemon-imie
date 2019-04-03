@@ -41,7 +41,6 @@ export class HomePage {
   constructor(private pokemonApi : PokemonApiService){
     this.pokemonApi.getAllPokemons().subscribe((res) => {
       let result : any = res
-      console.log(result)
       
       for(var i = 0; i < result.count; i++){
         this.unPokemon = new Pokemon()
@@ -60,14 +59,10 @@ export class HomePage {
           }
         })   
       }
-
-      
-
     }, error => {
       console.log(error)
     }
     );
-    console.log(this.listePokemon.length)
   }
 
 }
