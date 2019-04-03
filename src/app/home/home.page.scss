@@ -1,9 +1,42 @@
-.scrolling-wrapper {
+.equipe {
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
 
   .card {
     display: inline-block;
+    margin: 0px 20px 11px 20px;
+  }
+  .card img {
+    border-radius: 100%;
+    background-color: #1e20235c;
+  }
+  .card ion-card-header {
+    padding-bottom: 0;
+    padding-top: 6px;
+    color: gray;
+  }
+}
+.liste-pokemon {
+  white-space: nowrap;
+  max-width: 339px;
+  margin: auto;
+
+  .set-team{
+    margin: 5px auto 0 auto;
+    height: 30px;
+    width: 30px;
+  }
+  .card {
+    margin: 19px 20px 19px 20px;
+    width: 73px;
+  }
+  .card img {
+    background-color: #1e20235c;
+  }
+  .card ion-card-header {
+    padding: 0 0 6px;
+    text-align: center;
+    color: gray;
   }
 }
