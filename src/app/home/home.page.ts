@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { PokemonApiService } from '../pokemon-api.service';
+import { PokemonApiService } from '../services/pokemon-api.service';
+import { removeSummaryDuplicates } from '@angular/compiler';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,12 @@ export class HomePage {
 
   constructor(private pokemonApi : PokemonApiService){
     this.pokemonApi.getAllPokemons().subscribe((res) => {
-      console.log(res)
+      let result : any = res
+
+      for(var i = 0; i < result.results.length; i++){
+        console.log('1')
+      }
+
     }, error => {
       console.log(error)
     }
