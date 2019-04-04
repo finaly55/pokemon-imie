@@ -90,6 +90,7 @@ export class HomePage {
             console.log(error)
         }
       );
+      console.log(this.listePokemon)
     }
 
     setTeam(pokemon: Pokemon) {
