@@ -13,11 +13,38 @@
 
   .bandeau {
     vertical-align:top;
-
     width: 100%;
     height: 30%;
 
   }
 
+  .imgPokemon {
+    width: 40%;
+    position: absolute;
+    top:-4%;
+    left:30%;
+  }
+
 }
+#cardstat{
+  ion-title {
+    text-align: center;
+    font-size: 180%;
+    font-weight:bold;
+  }
+
+  ion-list {
+    margin-left: 20px;
+  }
+
+  h2 {
+    margin-left: 10px;
+  }
+
+  p {
+    margin-left: 20px;
+  }
+
+}
+
 

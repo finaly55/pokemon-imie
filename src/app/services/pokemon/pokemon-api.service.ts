@@ -18,4 +18,8 @@ export class PokemonApiService {
   getPokemonByUrl(url){
     return this.http.get(url)
   }
+
+  getPokemonById(id){
+    return this.http.get(this.apiUrl +"/"+id+"/")
+  }
 }

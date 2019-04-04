@@ -90,6 +90,7 @@ export class HomePage {
             console.log(error)
         }
       );
+      console.log(this.listePokemon)
     }
 
     setTeam(pokemon: Pokemon) {
@@ -271,7 +272,7 @@ export class HomePage {
     }
 
     getDataPokemon(id){
-        console.log(id)
+        this.pokemonService.idPokemon = id;
         this.router.navigate(['/detail-pokemon']);
     }
 }
