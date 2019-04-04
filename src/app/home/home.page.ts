@@ -251,11 +251,6 @@ export class HomePage {
         this.router.navigate(['/combat']);
     }
 
-    getDataPokemon(data) {
-        console.log(data.name);
-        this.router.navigate(['/detail-pokemon']);
-    }
-
     getIdHasard() {
         return '_' + Math.random().toString(36).substr(2, 9);
     }
