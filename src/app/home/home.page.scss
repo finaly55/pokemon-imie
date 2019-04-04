@@ -1,3 +1,13 @@
+ion-card-header {
+  height: auto;
+
+  ion-searchbar {
+    float: right;
+    height: 20px;
+    width: 50%;
+  }
+}
+
 .equipe {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -41,3 +51,4 @@
     color: gray;
   }
 }
+

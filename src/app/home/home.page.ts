@@ -6,8 +6,6 @@ import {PokemonService} from '../services/pokemon/pokemon.service';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {Participant} from '../class/participant/participant';
-import {forEach} from '@angular-devkit/schematics';
-import {Alert} from 'selenium-webdriver';
 
 @Component({
     selector: 'app-home',
@@ -25,6 +23,7 @@ export class HomePage {
     range: number = 0;
     increment: number = 20;
     pokemonNumber: number;
+    searchPokemon: string;
 
     //ARRAY POKEMON
     listePokemon: Pokemon[] = [];

@@ -26,12 +26,12 @@
 
     <ion-card>
         <ion-card-header>
-            Pokemon disponibles
+            Pokemon disponibles <ion-searchbar [(ngModel)]="searchPokemon" cancelButtonText="Custom Cancel"></ion-searchbar>
         </ion-card-header>
 
         <ion-list>
             <ion-row class="liste-pokemon">
-                <div *ngFor="let pokemon of listePokemon; let i= index" class="card">
+                <div *ngFor="let pokemon of listePokemon | pokemonFilter: searchPokemon; let i= index" class="card">
                     <ion-card-header>
                         {{ pokemon.nom }}
                     </ion-card-header>
