@@ -108,17 +108,11 @@ export class HomePage {
             ],
             buttons: [
                 {
-                    text: 'Annuler',
-
-                    handler: data => {
-
-                    }
-                },
-                {
-                    text: 'Suivant',
+                    text: 'Rejoindre une room',
                     handler: data => {
                         this.participant.pret = true
                         this.participant.pseudo = data.pseudo;
+                        this.participant.room = data.pseudo;
 
                         //envoie participant actuel en bdd
                         firebase.database().ref('participants/' + this.participant.id).set(this.participant, function (error) {
@@ -129,6 +123,24 @@ export class HomePage {
                             }
                         });
                         this.choixCombat();
+                    }
+
+                },
+                {
+                    text: 'Ouvrir une room',
+                    handler: data => {
+                        this.participant.pret = true
+                        this.participant.pseudo = data.pseudo;
+                        this.participant.room = data.pseudo;
+
+                        //envoie participant actuel en bdd
+                        firebase.database().ref('participants/' + this.participant.id).set(this.participant, function (error) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log('succès');
+                            }
+                        });
                     }
                 }
             ]
@@ -164,21 +176,21 @@ export class HomePage {
 
         //récuperation des participants
         firebase.database().ref('/participants/').on('value', function (snapshot) {
+            self.inputs = []
 
-            console.log('lkvdfngkr')
             snapshot.forEach(function (childSnapshot) {
                 var unParticipant: Participant = new Participant(childSnapshot.toJSON())
                 listeParticipants.push(unParticipant);
-                self.inputs.push({
-                    name: unParticipant.pseudo,
-                    type: 'radio',
-                    label: unParticipant.pseudo,
-                    value: unParticipant.pseudo,
-                });
-
+                if (unParticipant.id != self.participant.id && unParticipant.pret == true){
+                    self.inputs.push({
+                        name: unParticipant.pseudo,
+                        type: 'radio',
+                        label: unParticipant.pseudo,
+                        value: unParticipant.pseudo,
+                    });
+                }
             });
             self.alert.inputs = []
-
             self.alert.inputs = self.inputs
 
         });
