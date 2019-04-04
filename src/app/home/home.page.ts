@@ -22,35 +22,7 @@ export class HomePage {
     pokemonNumber : number
 
     //ARRAY POKEMON
-    listePokemon: Pokemon[] = [{
-        id:25,
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        id:25,
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        id:25,
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        id:25,
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        id:25,
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        id:25,
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        id:25,
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }]
+    listePokemon: Pokemon[] = []
 
     constructor(private pokemonApiService: PokemonApiService,
                 private pokemonService: PokemonService,
