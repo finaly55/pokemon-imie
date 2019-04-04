@@ -271,8 +271,8 @@ export class HomePage {
         this.router.navigate(['/combat']);
     }
 
-    getDataPokemon(data){
-        console.log(data.name)
+    getDataPokemon(id){
+        this.pokemonService.idPokemon = id
         this.router.navigate(['/detail-pokemon']);
     }
 }
