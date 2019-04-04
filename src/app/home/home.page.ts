@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import {Pokemon} from "../class/pokemon/pokemon";
 import {AlertController, ToastController} from "@ionic/angular";
+import {PokemonApiService} from '../services/pokemon/pokemon-api.service';
+import {PokemonService} from '../services/pokemon/pokemon.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -60,13 +63,13 @@ export class HomePage {
     }
 
     loadPokemons(){
-      this.pokemonApi.getAllPokemons(this.range).subscribe((res) => {
+      this.pokemonApiService.getAllPokemons(this.range).subscribe((res) => {
         let result : any = res
         this.pokemonNumber = result.count
         for(var i = 0; i < result.results.length; i++){
             this.unPokemon = new Pokemon()
 
-            this.pokemonApi.getPokemonByUrl(result.results[i].url).subscribe((res) => {
+            this.pokemonApiService.getPokemonByUrl(result.results[i].url).subscribe((res) => {
                 let pokemon : any = res
                 this.id = pokemon.id
                 this.image = pokemon.sprites.front_default
@@ -113,7 +116,6 @@ export class HomePage {
 
     async identification() {
         const alert = await this.alertController.create({
-            title: 'Identification',
             message: "Entre ton pseudo :",
             inputs: [
                 {
@@ -229,12 +231,12 @@ export class HomePage {
     //Scroll asynchrone
     loadData(event) {
       setTimeout(() => {
-        this.pokemonApi.getAllPokemons(this.range).subscribe((res) => {
+        this.pokemonApiService.getAllPokemons(this.range).subscribe((res) => {
           let result : any = res
           for(var i = 0; i < result.results.length; i++){
               this.unPokemon = new Pokemon()
 
-              this.pokemonApi.getPokemonByUrl(result.results[i].url).subscribe((res) => {
+              this.pokemonApiService.getPokemonByUrl(result.results[i].url).subscribe((res) => {
                   let pokemon : any = res
                   this.id = pokemon.id
                   this.image = pokemon.sprites.front_default
