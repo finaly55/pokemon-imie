@@ -177,6 +177,8 @@ export class HomePage {
                 });
 
             });
+            self.alert.inputs = []
+
             self.alert.inputs = self.inputs
 
         });
