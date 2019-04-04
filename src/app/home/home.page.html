@@ -30,7 +30,7 @@
         </ion-card-header>
 
         <ion-list>
-            <ion-row class="liste-pokemon">
+            <ion-row class="liste-pokemon"> 
                 <div *ngFor="let pokemon of listePokemon" class="card">
                     <ion-card-header>
                         {{ pokemon.nom }}
@@ -40,6 +40,12 @@
                         <ion-icon class="set-team" [attr.name]="isInTeam(pokemon) ? 'remove-circle-outline' : 'add-circle-outline'" name="add-circle-outline"></ion-icon>
                     </ion-button>
                 </div>
+                <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+                    <ion-infinite-scroll-content
+                        loadingSpinner="bubbles"
+                        loadingText="Chargement...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>                
             </ion-row>
         </ion-list>
     </ion-card>

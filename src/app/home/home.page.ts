@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { PokemonApiService } from '../services/pokemon/pokemon-api.service';
 import {Pokemon} from "../class/pokemon/pokemon";
 import {AlertController, ToastController} from "@ionic/angular";
-import {PokemonService} from "../services/pokemon/pokemon.service";
-import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-home',
@@ -17,51 +14,81 @@ export class HomePage {
     unPokemon : Pokemon;
     id : number;
     image : any;
+    range : number = 0
+    increment : number = 20
+    pokemonNumber : number
 
     //ARRAY POKEMON
     listePokemon: Pokemon[] = [{
+        id:25,
+        nom: "Pikachu",
+        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    }, {
+        id:25,
+        nom: "Pikachu",
+        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    }, {
+        id:25,
+        nom: "Pikachu",
+        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    }, {
+        id:25,
+        nom: "Pikachu",
+        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    }, {
+        id:25,
+        nom: "Pikachu",
+        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    }, {
+        id:25,
+        nom: "Pikachu",
+        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    }, {
+        id:25,
         nom: "Pikachu",
         image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
     }]
-
-
 
     constructor(private pokemonApiService: PokemonApiService,
                 private pokemonService: PokemonService,
                 public alertController: AlertController,
                 public toastController: ToastController,
                 public router: Router) {
-        this.getAllPokemon()
+    }
+    ngOnInit(){
+      this.loadPokemons()
     }
 
-    async getAllPokemon(){
-        this.pokemonApiService.getAllPokemons().subscribe((res) => {
-                let result : any = res
-                for(var i = 0; i < result.count; i++){
-                    this.unPokemon = new Pokemon()
-                    this.pokemonApiService.getPokemonByUrl(result.results[i].url).subscribe((res) => {
-                        let pokemon : any = res
-                        this.id = pokemon.id
-                        this.image = pokemon.sprites.front_default
+    loadPokemons(){
+      this.pokemonApi.getAllPokemons(this.range).subscribe((res) => {
+        let result : any = res
+        this.pokemonNumber = result.count
+        for(var i = 0; i < result.results.length; i++){
+            this.unPokemon = new Pokemon()
 
-                        if(this.image != null){
-                            const unPokemon : Pokemon =
-                                {
-                                    nom : pokemon.forms[0].name,
-                                    image: this.image
-                                }
-                            this.listePokemon.push(unPokemon)
+            this.pokemonApi.getPokemonByUrl(result.results[i].url).subscribe((res) => {
+                let pokemon : any = res
+                this.id = pokemon.id
+                this.image = pokemon.sprites.front_default
+
+                if(this.image != null){
+                    const unPokemon : Pokemon =
+                        {
+                            id: this.id,
+                            nom : pokemon.forms[0].name,
+                            image: this.image
                         }
-                    })
+                    this.listePokemon.push(unPokemon)
                 }
-
-
-
-            }, error => {
-                console.log(error)
-            }
-        );
+            })
+        }
+        this.range += this.increment
+        }, error => {
+            console.log(error)
+        }
+      );
     }
+
     setTeam(pokemon: Pokemon) {
         let id = this.listePokemonTeam.indexOf(pokemon)
 
@@ -86,6 +113,7 @@ export class HomePage {
 
     async identification() {
         const alert = await this.alertController.create({
+            title: 'Identification',
             message: "Entre ton pseudo :",
             inputs: [
                 {
@@ -97,6 +125,7 @@ export class HomePage {
                 {
                     text: 'Annuler',
                     handler: data => {
+                        this.choixCombat()
                     }
                 },
                 {
@@ -195,6 +224,43 @@ export class HomePage {
             });
             toast.present();
         }
+    }
+
+    //Scroll asynchrone
+    loadData(event) {
+      setTimeout(() => {
+        this.pokemonApi.getAllPokemons(this.range).subscribe((res) => {
+          let result : any = res
+          for(var i = 0; i < result.results.length; i++){
+              this.unPokemon = new Pokemon()
+
+              this.pokemonApi.getPokemonByUrl(result.results[i].url).subscribe((res) => {
+                  let pokemon : any = res
+                  this.id = pokemon.id
+                  this.image = pokemon.sprites.front_default
+
+                  if(this.image != null){
+                      const unPokemon : Pokemon =
+                          {
+                              id: this.id,
+                              nom : pokemon.forms[0].name,
+                              image: this.image
+                          }
+                      this.listePokemon.push(unPokemon)
+                  }
+              })
+          }
+          this.range += this.increment
+      }, error => {
+          console.log(error)
+      }
+      );
+        event.target.complete();
+
+        if (this.listePokemon.length == this.pokemonNumber) {
+          event.target.disabled = true;
+        }
+      }, 800);
     }
 
     lancerCombat(){
