@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { PokemonApiService } from '../services/pokemon-api.service';
-import { removeSummaryDuplicates } from '@angular/compiler';
+import { PokemonApiService } from '../services/pokemon/pokemon-api.service';
 import {Pokemon} from "../class/pokemon/pokemon";
 import {AlertController, ToastController} from "@ionic/angular";
+import {PokemonService} from "../services/pokemon/pokemon.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-home',
@@ -21,36 +22,24 @@ export class HomePage {
     listePokemon: Pokemon[] = [{
         nom: "Pikachu",
         image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-    }, {
-        nom: "Pikachu",
-        image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
     }]
 
 
 
-    constructor(private pokemonApi: PokemonApiService, public alertController: AlertController, public toastController: ToastController) {
-        this.pokemonApi.getAllPokemons().subscribe((res) => {
-                let result : any = res
-                console.log(result)
+    constructor(private pokemonApiService: PokemonApiService,
+                private pokemonService: PokemonService,
+                public alertController: AlertController,
+                public toastController: ToastController,
+                public router: Router) {
+        this.getAllPokemon()
+    }
 
+    async getAllPokemon(){
+        this.pokemonApiService.getAllPokemons().subscribe((res) => {
+                let result : any = res
                 for(var i = 0; i < result.count; i++){
                     this.unPokemon = new Pokemon()
-                    this.pokemonApi.getPokemonByUrl(result.results[i].url).subscribe((res) => {
+                    this.pokemonApiService.getPokemonByUrl(result.results[i].url).subscribe((res) => {
                         let pokemon : any = res
                         this.id = pokemon.id
                         this.image = pokemon.sprites.front_default
@@ -72,9 +61,7 @@ export class HomePage {
                 console.log(error)
             }
         );
-        console.log(this.listePokemon.length)
     }
-
     setTeam(pokemon: Pokemon) {
         let id = this.listePokemonTeam.indexOf(pokemon)
 
@@ -99,7 +86,6 @@ export class HomePage {
 
     async identification() {
         const alert = await this.alertController.create({
-            title: 'Identification',
             message: "Entre ton pseudo :",
             inputs: [
                 {
@@ -111,7 +97,6 @@ export class HomePage {
                 {
                     text: 'Annuler',
                     handler: data => {
-                        this.choixCombat()
                     }
                 },
                 {
@@ -179,7 +164,7 @@ export class HomePage {
                 }, {
                     text: 'Lancer la partie',
                     handler: () => {
-                        console.log('Confirm Ok');
+                        this.lancerCombat()
                     }
                 }
             ]
@@ -197,6 +182,23 @@ export class HomePage {
                 color: 'success'
             });
             toast.present();
+
         }
+        else{
+            const toast = await this.toastController.create({
+                message: 'Pokemon retiré à votre team',
+                duration: 1000,
+                position: 'top',
+                showCloseButton: false,
+                color: 'danger'
+
+            });
+            toast.present();
+        }
+    }
+
+    lancerCombat(){
+        this.pokemonService.listePokemonTeam = this.listePokemonTeam
+        this.router.navigate(['/combat']);
     }
 }
