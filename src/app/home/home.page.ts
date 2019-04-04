@@ -177,6 +177,8 @@ export class HomePage {
                 });
 
             });
+            self.alert.inputs = []
+
             self.alert.inputs = self.inputs
 
         });
@@ -249,11 +251,6 @@ export class HomePage {
     lancerCombat() {
         this.pokemonService.listePokemonTeam = this.participant.team;
         this.router.navigate(['/combat']);
-    }
-
-    getDataPokemon(data) {
-        console.log(data.name);
-        this.router.navigate(['/detail-pokemon']);
     }
 
     getIdHasard() {
