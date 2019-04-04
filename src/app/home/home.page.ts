@@ -270,4 +270,9 @@ export class HomePage {
         this.pokemonService.listePokemonTeam = this.listePokemonTeam
         this.router.navigate(['/combat']);
     }
+
+    getDataPokemon(data){
+        console.log(data.name)
+        this.router.navigate(['/detail-pokemon']);
+    }
 }
