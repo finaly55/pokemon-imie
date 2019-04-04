@@ -170,11 +170,11 @@ export class HomePage {
                 var unParticipant: Participant = new Participant(childSnapshot.toJSON())
                 listeParticipants.push(unParticipant);
                 self.inputs.push({
-                        name: unParticipant.pseudo,
-                        type: 'radio',
-                        label: unParticipant.pseudo,
-                        value: unParticipant.pseudo,
-                    });
+                    name: unParticipant.pseudo,
+                    type: 'radio',
+                    label: unParticipant.pseudo,
+                    value: unParticipant.pseudo,
+                });
 
             });
             self.alert.inputs = self.inputs
@@ -258,5 +258,10 @@ export class HomePage {
 
     getIdHasard() {
         return '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    getDataPokemon(id){
+        this.pokemonService.idPokemon = id;
+        this.router.navigate(['/detail-pokemon']);
     }
 }

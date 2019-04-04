@@ -1,0 +1,55 @@
+<ion-content>
+  <div>
+     <ion-card id="conteneur">
+        <ion-img class="bandeau" src ="http://mfs1.cdnsw.com/fs/Root/br79n-Bandeau_gris.jpg" ></ion-img>
+        <span>
+          <ion-icon class="btn-backToHome" (click)="backToHome()" name="arrow-round-back"></ion-icon>
+        </span>
+        <ion-img class="imgPokemon" src ={{imgUrl}} ></ion-img>
+     </ion-card>
+      <ion-card id="cardstat">
+          <ion-card-header>
+              <ion-title>{{name}} </ion-title>
+          </ion-card-header>
+
+          <div>
+               <ion-card>
+                  <h2 >
+                      Type:
+                  </h2>
+                  <ion-list *ngFor="let type of listTypes">{{type.type.name}}</ion-list>
+
+               </ion-card>
+
+              <ion-card class="caractristique">
+                  <h2 >
+                      Hauteur:
+                  </h2>
+                  <p>{{height}} m</p>
+
+                  <h2 >
+                      Poid:
+                  </h2>
+                  <p>{{weight}} Kg</p>
+
+              </ion-card>
+
+              <ion-card>
+                  <h2 >
+                      Compétences:
+                  </h2>
+                  <ion-list *ngFor="let ability of abilities">{{ability.ability.name}}</ion-list>
+
+              </ion-card>
+
+          </div>
+          <div>
+
+          </div>
+      </ion-card>
+
+
+
+  </div>
+
+</ion-content>

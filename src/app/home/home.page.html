@@ -35,7 +35,7 @@
                     <ion-card-header>
                         {{ pokemon.nom }}
                     </ion-card-header>
-                    <img (click)="getDataPokemon(listePokemon[i])" class="img-pokemon" src="{{pokemon.image}}">
+                    <img (click)="getDataPokemon(listePokemon[i].id)" class="img-pokemon" src="{{pokemon.image}}">
                     <ion-button fill="clear" color="dark" expand="full" (click)="setTeam(pokemon)">
                         <ion-icon class="set-team" [attr.name]="isInTeam(pokemon) ? 'remove-circle-outline' : 'add-circle-outline'" name="add-circle-outline"></ion-icon>
                     </ion-button>

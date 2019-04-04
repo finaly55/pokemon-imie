@@ -11,11 +11,15 @@ export class PokemonApiService {
   constructor(private http: HttpClient) { }
 
   //RECUPERER TOUS LES POKEMON
-  getAllPokemons(){
-    return this.http.get(this.apiUrl + "/?limit=964")
+  getAllPokemons(offset){
+    return this.http.get(this.apiUrl + "?offset="+offset+"&limit=20")
   }
 
   getPokemonByUrl(url){
     return this.http.get(url)
+  }
+
+  getPokemonById(id){
+    return this.http.get(this.apiUrl +"/"+id+"/")
   }
 }
