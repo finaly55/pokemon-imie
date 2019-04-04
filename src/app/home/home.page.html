@@ -7,10 +7,51 @@
 </ion-header>
 
 <ion-content>
-    <div class="scrolling-wrapper">
-        <div *ngFor="let pokemon of listePokemon" class="card">
-            <span>{{ pokemon.nom }}</span>
-            <img src="{{pokemon.image}}">
-        </div>
-    </div>
+    <ion-card>
+        <ion-card-header>
+            Ma team : {{ listePokemonTeam.length }}/6
+        </ion-card-header>
+
+        <ion-list>
+            <div class="equipe">
+                <div *ngFor="let pokemon of listePokemonTeam" class="card">
+                    <img class="img-pokemon" src="{{pokemon.image}}">
+                    <ion-card-header>
+                        {{ pokemon.nom }}
+                    </ion-card-header>
+                </div>
+            </div>
+        </ion-list>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            Pokemon disponibles
+        </ion-card-header>
+
+        <ion-list>
+            <ion-row class="liste-pokemon">
+                <div *ngFor="let pokemon of listePokemon; let i= index" class="card">
+                    <ion-card-header>
+                        {{ pokemon.nom }}
+                    </ion-card-header>
+                    <img (click)="getDataPokemon(listePokemon[i])" class="img-pokemon" src="{{pokemon.image}}">
+                    <ion-button fill="clear" color="dark" expand="full" (click)="setTeam(pokemon)">
+                        <ion-icon class="set-team" [attr.name]="isInTeam(pokemon) ? 'remove-circle-outline' : 'add-circle-outline'" name="add-circle-outline"></ion-icon>
+                    </ion-button>
+                </div>
+                <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+                    <ion-infinite-scroll-content
+                        loadingSpinner="bubbles"
+                        loadingText="Chargement...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+            </ion-row>
+        </ion-list>
+    </ion-card>
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+        <ion-fab-button (click)="identification()" color="danger" [disabled]="listePokemonTeam.length != 6">
+            <ion-icon name="play"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>
