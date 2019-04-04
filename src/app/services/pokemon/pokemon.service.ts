@@ -7,6 +7,7 @@ import {Pokemon} from "../../class/pokemon/pokemon";
 export class PokemonService {
 
     listePokemonTeam: Pokemon[] = [];
+    idPokemon : number;
 
     constructor() {
     }
