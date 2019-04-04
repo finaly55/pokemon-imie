@@ -141,6 +141,19 @@ export class HomePage {
                                 console.log('succès');
                             }
                         });
+
+                        //creation de la room
+                        let ref = firebase.database().ref('/parties/' + this.participant.id)
+                        ref.set({
+                          name: 'testRoom',
+                          owner : this.participant,
+
+                        }, function (error){
+                          if (error){
+                            console.log(error)
+                          }
+                        })
+                        this.goWaitRoom(this.participant.id);
                     }
                 }
             ]
@@ -263,6 +276,11 @@ export class HomePage {
     lancerCombat() {
         this.pokemonService.listePokemonTeam = this.participant.team;
         this.router.navigate(['/combat']);
+    }
+
+    goWaitRoom(id){
+      this.pokemonService.idPokemon = id;
+      this.router.navigate(['/wait'])
     }
 
     getIdHasard() {

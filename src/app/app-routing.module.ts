@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'detail-pokemon', loadChildren: './detail-pokemon/detail-pokemon.module#DetailPokemonPageModule' },
 
   { path: 'combat', loadChildren: './combat/combat.module#CombatPageModule' },
+  { path: 'wait', loadChildren: './wait/wait.module#WaitPageModule' },
 ];
 
 @NgModule({
