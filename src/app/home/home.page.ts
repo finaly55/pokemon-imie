@@ -270,8 +270,8 @@ export class HomePage {
         this.router.navigate(['/combat']);
     }
 
-    getDataPokemon(data){
-        console.log(data.name)
+    getDataPokemon(id){
+        console.log(id)
         this.router.navigate(['/detail-pokemon']);
     }
 }
