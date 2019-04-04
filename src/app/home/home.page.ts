@@ -28,7 +28,7 @@ export class HomePage {
 
     //ARRAY POKEMON
     listePokemon: Pokemon[] = [];
-    private alert ;
+    private alert;
     private inputs = [];
 
 
@@ -110,9 +110,8 @@ export class HomePage {
                 {
                     text: 'Rejoindre une room',
                     handler: data => {
-                        this.participant.pret = true
                         this.participant.pseudo = data.pseudo;
-                        this.participant.room = data.pseudo;
+                        this.participant.room = false;
 
                         //envoie participant actuel en bdd
                         firebase.database().ref('participants/' + this.participant.id).set(this.participant, function (error) {
@@ -129,12 +128,21 @@ export class HomePage {
                 {
                     text: 'Ouvrir une room',
                     handler: data => {
-                        this.participant.pret = true
                         this.participant.pseudo = data.pseudo;
-                        this.participant.room = data.pseudo;
+                        this.participant.room = true;
 
                         //envoie participant actuel en bdd
                         firebase.database().ref('participants/' + this.participant.id).set(this.participant, function (error) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log('succès');
+                            }
+                        });
+                        this.attenteRoom();
+
+                        //envoie participant actuel en bdd
+                        firebase.database().ref('parties/' + this.participant.id).set(this.participant, function (error) {
                             if (error) {
                                 console.log(error);
                             } else {
@@ -149,9 +157,32 @@ export class HomePage {
         await alert.present();
     }
 
+    async attenteRoom() {
+        const alert = await this.alertController.create({
+            header: 'En attente',
+            message: 'Vous êtes visible, attendez qu\'un autre joueur',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                    }
+                }, {
+                    text: 'Okay',
+                    handler: () => {
+                        console.log('Confirm Okay');
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
     async choixCombat() {
         var listeParticipants = [];
-        var p = this.participant
+        var p = this.participant;
 
         this.alert = await this.alertController.create({
             header: 'Adversaires disponibles',
@@ -176,12 +207,12 @@ export class HomePage {
 
         //récuperation des participants
         firebase.database().ref('/participants/').on('value', function (snapshot) {
-            self.inputs = []
+            self.inputs = [];
 
             snapshot.forEach(function (childSnapshot) {
-                var unParticipant: Participant = new Participant(childSnapshot.toJSON())
+                var unParticipant: Participant = new Participant(childSnapshot.toJSON());
                 listeParticipants.push(unParticipant);
-                if (unParticipant.id != self.participant.id && unParticipant.pret == true){
+                if (unParticipant.id != self.participant.id && unParticipant.room == true) {
                     self.inputs.push({
                         name: unParticipant.pseudo,
                         type: 'radio',
@@ -190,8 +221,8 @@ export class HomePage {
                     });
                 }
             });
-            self.alert.inputs = []
-            self.alert.inputs = self.inputs
+            self.alert.inputs = [];
+            self.alert.inputs = self.inputs;
 
         });
         await this.alert.present();
@@ -269,7 +300,7 @@ export class HomePage {
         return '_' + Math.random().toString(36).substr(2, 9);
     }
 
-    getDataPokemon(id){
+    getDataPokemon(id) {
         this.pokemonService.idPokemon = id;
         this.router.navigate(['/detail-pokemon']);
     }

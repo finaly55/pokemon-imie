@@ -5,7 +5,6 @@ export class Participant {
         if (json){
             this.id = json.id;
             this.pseudo = json.pseudo;
-            this.pret = json.pret;
             this.team = json.team;
             this.room = json.room;
         }
@@ -13,7 +12,6 @@ export class Participant {
 
     id: string
     pseudo: string;
-    pret: boolean = false;
     team:Pokemon[];
-    room: boolean;
+    room: boolean = false;
 }
