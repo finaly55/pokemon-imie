@@ -12,6 +12,13 @@ import {PokemonApiService} from '../services/pokemon/pokemon-api.service';
 export class DetailPokemonPage implements OnInit {
 
   id: number;
+  name: string;
+  imgUrl: string;
+  listTypes: Array<object>;
+  height: number;
+  weight: number;
+  abilities: Array<object>;
+
 
   constructor(private router: Router, private pokemonService: PokemonService, private pokemonApiService : PokemonApiService) {
     this.id = this.pokemonService.idPokemon;
@@ -24,8 +31,20 @@ export class DetailPokemonPage implements OnInit {
 
   ngOnInit() {
     this.pokemonApiService.getPokemonById(this.id).subscribe((res) => {
+      let pokemon : any = res;
+      this.name = pokemon.name;
+      this.imgUrl = pokemon.sprites.front_default;
+      this.listTypes = pokemon.types;
+      this.height = pokemon.height/10;
+      this.weight = pokemon.weight/10;
+      this.abilities = pokemon.abilities;
+
+
+      console.log(this.listTypes)
+
+
       console.log(res)
-      
+
     }, error => {
       console.log(error)
     })

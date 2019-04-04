@@ -244,7 +244,7 @@ export class HomePage {
     }
 
     getDataPokemon(id){
-        this.pokemonService.idPokemon = id
+        this.pokemonService.idPokemon = id;
         this.router.navigate(['/detail-pokemon']);
     }
 }
