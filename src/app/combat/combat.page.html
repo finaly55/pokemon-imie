@@ -18,13 +18,13 @@
               </ion-col>
               <ion-col class="ion-justify-content-end">
                   <ion-chip>
-                      <ion-label>{{ participants[1].team[0].nom }}</ion-label>
+                      <ion-label>{{ participants[1].team[pokemonAdversaire].nom }}</ion-label>
                   </ion-chip>                
               </ion-col>
           </ion-row>
           <ion-row>
               <ion-col>
-                     <ion-progress-bar [value]="participants[1].team[0].pv / 100"></ion-progress-bar>
+                     <ion-progress-bar [value]="participants[1].team[pokemonAdversaire].pv / 100"></ion-progress-bar>
               </ion-col>
               <ion-col>
 
@@ -32,7 +32,7 @@
           </ion-row> 
           <ion-row>
             <ion-col class="ion-justify-content-end">
-              <img class="pokeImage" src={{participants[1].team[0].image}}>
+              <img class="pokeImage" src={{participants[1].team[pokemonAdversaire].image}}>
             </ion-col>
 
           </ion-row>         
@@ -43,7 +43,7 @@
           <ion-row>
               <ion-col>
                   <ion-chip>
-                      <ion-label>{{ participants[0].team[0].nom }}</ion-label>
+                      <ion-label>{{ participants[0].team[mesPokemon].nom }}</ion-label>
                   </ion-chip>
               </ion-col>
               <ion-col class="ion-justify-content-end">
@@ -56,12 +56,12 @@
               <ion-col>   
               </ion-col>  
               <ion-col class="height">
-                  <ion-progress-bar [value]="participants[0].team[0].pv / 100"></ion-progress-bar>
+                  <ion-progress-bar [value]="participants[0].team[mesPokemon].pv / 100"></ion-progress-bar>
               </ion-col>                           
           </ion-row>
           <ion-row>
             <ion-col>
-                <img class="pokeImage2" src={{participants[0].team[0].imageBack}}>
+                <img class="pokeImage2" src={{participants[0].team[mesPokemon].imageBack}}>
             </ion-col>
             <ion-col>
               <ion-row>

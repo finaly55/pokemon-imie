@@ -21,6 +21,8 @@ export class CombatPage implements OnInit {
     currentPlayer: any;
     teamCount: any;
 
+    mesPokemon: number = 0
+    pokemonAdversaire: number = 0
     owner: boolean = false
 
     participants: Participant[] =
@@ -37,6 +39,9 @@ export class CombatPage implements OnInit {
 
     ngOnInit() {
 
+        if(!this.partieService.partie){
+            this.router.navigate(['/home']);
+        }
         if (this.partieService.partie.proprietaire == this.participantService.moi) {
             this.participants.push(this.partieService.partie.joueur2);
             this.participants.push(this.partieService.partie.proprietaire);
@@ -58,21 +63,30 @@ export class CombatPage implements OnInit {
                 self.participants[0] = self.partieService.partie.joueur2
                 self.participants[1] = self.partieService.partie.proprietaire
             }
-            if (self.participants[0].team[0].pv <= 0) {
-                self.homeLoose()
+            if (self.participants[0].team[self.mesPokemon].pv <= 0) {
+                if(self.mesPokemon == 0){
+                    self.homeLoose()
+                }
+                else{
+                    self.mesPokemon++
+                }
             }
 
-            if (self.participants[1].team[0].pv <= 0) {
-                self.homeWin()
+            if (self.participants[1].team[self.pokemonAdversaire].pv <= 0) {
+                if(self.pokemonAdversaire == 0){
+                    self.homeWin()
+                }
+                else{
+                    self.pokemonAdversaire++
+                }
             }
-
         });
 
     }
 
     onStart() {
         //JOUEUR DU PREMIER TOUR
-        this.fistPlayer = this.getRandomValue(0, this.participants.length);
+        this.fistPlayer = CombatPage.getRandomValue(0, this.participants.length);
         this.participants[this.fistPlayer].pret = true;
 
     }
@@ -116,11 +130,13 @@ export class CombatPage implements OnInit {
     }
 
     async setTour() {
-        console.log(this.participants[1].team[0].pv)
+        console.log(this.participants[1].team[this.pokemonAdversaire].pv)
 
-        this.participants[1].team[0].pv -= this.randomPower()
-        console.log(this.participants[1].team[0].pv)
-        var pvAdversaire = this.participants[1].team[0].pv
+        this.participants[1].team[this.pokemonAdversaire].pv -= CombatPage.randomPower()
+        console.log(this.participants[1].team[this.pokemonAdversaire].pv)
+        console.log(this.pokemonAdversaire)
+        console.log(this.mesPokemon)
+        var pvAdversaire = this.participants[1].team[this.pokemonAdversaire].pv
         if (this.owner) {
             //envoie partie en bdd
             firebase.database().ref('parties/' + this.partieService.partie.id + "/proprietaire/tour").set(!this.participants[0].tour, function (error) {
@@ -139,7 +155,7 @@ export class CombatPage implements OnInit {
                 }
             });
 
-            firebase.database().ref('parties/' + this.partieService.partie.id + "/joueur2/team/0/pv").set(pvAdversaire, function (error) {
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/joueur2/team/" + this.mesPokemon +"/pv").set(pvAdversaire, function (error) {
                 if (error) {
                     console.log(error);
                 } else {
@@ -163,7 +179,7 @@ export class CombatPage implements OnInit {
                 }
             });
 
-            firebase.database().ref('parties/' + this.partieService.partie.id + "/proprietaire/team/0/pv").set(pvAdversaire, function (error) {
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/proprietaire/team/" + this.pokemonAdversaire + "/pv").set(pvAdversaire, function (error) {
                 if (error) {
                     console.log(error);
                 } else {
@@ -174,7 +190,7 @@ export class CombatPage implements OnInit {
         }
     }
 
-    getRandomValue(min, max) {
+    static getRandomValue(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min;
@@ -188,7 +204,7 @@ export class CombatPage implements OnInit {
         toast.present();
     }
 
-    randomPower() {
-        return this.getRandomValue(0, 100);
+    static randomPower() {
+        return CombatPage.getRandomValue(0, 100);
     }
 }
