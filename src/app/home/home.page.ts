@@ -6,6 +6,9 @@ import {PokemonService} from '../services/pokemon/pokemon.service';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {Participant} from '../class/participant/participant';
+import {Partie} from '../class/partie/partie';
+import {PartieService} from '../services/partie/partie.service';
+import {ParticipantService} from '../services/participant/participant.service';
 
 @Component({
     selector: 'app-home',
@@ -33,6 +36,8 @@ export class HomePage {
 
     constructor(private pokemonApiService: PokemonApiService,
                 private pokemonService: PokemonService,
+                private partieService: PartieService,
+                private participantService: ParticipantService,
                 public alertController: AlertController,
                 public toastController: ToastController,
                 public router: Router) {
@@ -112,6 +117,7 @@ export class HomePage {
                         this.participant.pseudo = data.pseudo;
                         this.participant.room = false;
 
+                        this.participantService.moi = this.participant
                         //envoie participant actuel en bdd
                         firebase.database().ref('participants/' + this.participant.id).set(this.participant, function (error) {
                             if (error) {
@@ -130,6 +136,8 @@ export class HomePage {
                         this.participant.pseudo = data.pseudo;
                         this.participant.room = true;
 
+                        this.participantService.moi = this.participant
+
                         //envoie participant actuel en bdd
                         firebase.database().ref('participants/' + this.participant.id).set(this.participant, function (error) {
                             if (error) {
@@ -140,12 +148,30 @@ export class HomePage {
                         });
                         this.attenteRoom();
 
-                        //envoie participant actuel en bdd
-                        firebase.database().ref('parties/' + this.participant.id).set(this.participant, function (error) {
+                        var maPartie: Partie = new Partie();
+                        maPartie.id = this.getIdHasard();
+                        maPartie.proprietaire = this.participant;
+
+                        //envoie partie en bdd
+                        firebase.database().ref('parties/' + maPartie.id).set(maPartie, function (error) {
                             if (error) {
                                 console.log(error);
                             } else {
                                 console.log('succès');
+                            }
+                        });
+                        var self1 = this;
+
+                        //récuperation des participants
+                        firebase.database().ref('/parties/' + maPartie.id).on('value', function (snapshot) {
+                            var self = self1;
+                            var partie = new Partie(snapshot.toJSON())
+                            if (partie.joueur2) {
+                                maPartie.joueur2 = partie.joueur2;
+                                self.partieService.partie = maPartie
+                                self.alert.dismiss()
+                                self.lancerCombat();
+
                             }
                         });
                     }
@@ -157,7 +183,7 @@ export class HomePage {
     }
 
     async attenteRoom() {
-        const alert = await this.alertController.create({
+        this.alert = await this.alertController.create({
             header: 'En attente',
             message: 'Vous êtes visible, attendez qu\'un autre joueur',
             buttons: [
@@ -176,7 +202,7 @@ export class HomePage {
                 }
             ]
         });
-        alert.present();
+        this.alert.present();
     }
 
     async choixCombat() {
@@ -196,8 +222,15 @@ export class HomePage {
                     }
                 }, {
                     text: 'Lancer la partie',
-                    handler: () => {
-                        this.lancerCombat();
+                    handler: (value) => {
+                        var self = this
+                        firebase.database().ref('parties/' + value).child('joueur2').set(this.participant);
+                        firebase.database().ref('parties/' + value).child('enCours').set(true);
+                        firebase.database().ref('parties/' + value).once('value', function (snapshot) {
+                            self.partieService.partie = new Partie(snapshot.toJSON())
+                            console.log(self.partieService.partie)
+                            self.lancerCombat();
+                        })
                     }
                 }
             ]
@@ -205,18 +238,20 @@ export class HomePage {
         var self = this; // save object reference
 
         //récuperation des participants
-        firebase.database().ref('/participants/').on('value', function (snapshot) {
+        firebase.database().ref('/parties/').on('value', function (snapshot) {
             self.inputs = [];
 
             snapshot.forEach(function (childSnapshot) {
-                var unParticipant: Participant = new Participant(childSnapshot.toJSON());
+                var partie = new Partie(childSnapshot.toJSON())
+                var unParticipant: Participant = new Participant(partie.proprietaire);
+                console.log(partie)
                 listeParticipants.push(unParticipant);
-                if (unParticipant.id != self.participant.id && unParticipant.room == true) {
+                if (unParticipant.id != self.participant.id && partie.enCours == false && partie.estTermine == false) {
                     self.inputs.push({
                         name: unParticipant.pseudo,
                         type: 'radio',
                         label: unParticipant.pseudo,
-                        value: unParticipant.pseudo,
+                        value: partie.id,
                     });
                 }
             });
