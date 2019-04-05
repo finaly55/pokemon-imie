@@ -13,7 +13,7 @@
                 <div *ngFor="let pokemon of listePokemonTeam" class="card">
                     <div id="imgAndicon">
                         <img class="img-pokemon" src="{{pokemon.image}}">
-                        <ion-icon class="iconRemove" (click)="setTeam(pokemon)" name="trash"></ion-icon>
+                        <ion-icon class="iconRemove" (click)="setTeam(pokemon)" name="remove-circle-outline"></ion-icon>
                     </div>
                         <ion-card-header>
                             {{ pokemon.nom }}
