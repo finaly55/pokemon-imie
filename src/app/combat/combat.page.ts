@@ -25,7 +25,7 @@ export class CombatPage implements OnInit {
 
     constructor(private pokemonService: PokemonService,
                 private participantService: ParticipantService,
-                private pokemonApiService: PokemonApiService,
+                private pokemonApiService : PokemonApiService,
                 public toastController: ToastController,
                 private partieService: PartieService) {
     }
@@ -42,15 +42,8 @@ export class CombatPage implements OnInit {
 
         var self = this;
         firebase.database().ref('/parties/' + this.partieService.partie.id).on('value', function (snapshot) {
-            var partie = new Partie(snapshot.toJSON());
-            self.partieService.partie = partie;
-            if (self.partieService.partie.proprietaire == self.participantService.moi) {
-                self.participants[0] = partie.proprietaire;
-            }
-            else {
-                self.participants[1] = partie.joueur2;
-            }
-        });
+
+      });
 
     }
 
