@@ -46,6 +46,12 @@ export class CombatPage implements OnInit {
         var self = this;
         firebase.database().ref('/parties/' + this.partieService.partie.id).on('value', function (snapshot) {
             self.partieService.partie = new Partie(snapshot.toJSON())
+            if (self.owner){
+                self.participants[0] = self.partieService.partie.proprietaire
+            }
+            else{
+                self.participants[0] = self.partieService.partie.joueur2
+            }
 
       });
 
