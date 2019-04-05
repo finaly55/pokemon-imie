@@ -150,7 +150,7 @@ export class HomePage {
                     text: 'Ouvrir une room',
                     handler: data => {
                         this.participant.pseudo = data.pseudo;
-                        this.participant.room = true;
+                        this.participant.tour = true;
 
                         this.participantService.moi = this.participant
 

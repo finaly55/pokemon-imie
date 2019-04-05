@@ -4,10 +4,10 @@ import {Pokemon} from '../class/pokemon/pokemon';
 import {ToastController, BooleanValueAccessor} from '@ionic/angular';
 import {PartieService} from '../services/partie/partie.service';
 import {ParticipantService} from '../services/participant/participant.service';
-import { PokemonApiService } from '../services/pokemon/pokemon-api.service';
-import { Participant } from '../class/participant/participant';
+import {PokemonApiService} from '../services/pokemon/pokemon-api.service';
+import {Participant} from '../class/participant/participant';
 import * as firebase from 'firebase';
-import { Partie } from '../class/partie/partie';
+import {Partie} from '../class/partie/partie';
 
 @Component({
     selector: 'app-combat',
@@ -18,7 +18,9 @@ export class CombatPage implements OnInit {
 
     fistPlayer: number;
     currentPlayer: any;
-    teamCount : any
+    teamCount: any;
+
+    owner: boolean = false
 
     participants: Participant[] =
         [];
@@ -34,16 +36,22 @@ export class CombatPage implements OnInit {
         if (this.partieService.partie.proprietaire == this.participantService.moi) {
             this.participants.push(this.partieService.partie.joueur2);
             this.participants.push(this.partieService.partie.proprietaire);
+            this.owner = true
         }
         else {
             this.participants.push(this.partieService.partie.proprietaire);
             this.participants.push(this.partieService.partie.joueur2);
         }
 
-        this.onStart();
-        this.startPopup();
-        var self = this
+        var self = this;
         firebase.database().ref('/parties/' + this.partieService.partie.id).on('value', function (snapshot) {
+            self.partieService.partie = new Partie(snapshot.toJSON())
+            if (self.owner){
+                self.participants[0] = self.partieService.partie.proprietaire
+            }
+            else{
+                self.participants[0] = self.partieService.partie.joueur2
+            }
 
       });
 
@@ -65,6 +73,10 @@ export class CombatPage implements OnInit {
         console.log(info);
     }
 
+    getTour() {
+        console.log("test")
+    }
+
     getRandomValue(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -80,6 +92,6 @@ export class CombatPage implements OnInit {
     }
 
     randomPower() {
-      this.getRandomValue(0, 100)
+        this.getRandomValue(0, 100);
     }
 }
