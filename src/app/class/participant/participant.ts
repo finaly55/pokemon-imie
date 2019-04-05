@@ -15,5 +15,5 @@ export class Participant {
     pseudo: string;
     pret: boolean = false;
     team:Pokemon[];
-    room: boolean;
+    room: boolean = false;
 }
