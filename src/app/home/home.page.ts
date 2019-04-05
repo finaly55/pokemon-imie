@@ -70,7 +70,7 @@ export class HomePage {
                                     nom: pokemon.forms[0].name,
                                     image: this.image,
                                     imageBack : this.imageBack,
-                                    pv: this.randomPv()
+                                    pv: 100
                                 };
                             this.listePokemon.push(unPokemon);
                         }

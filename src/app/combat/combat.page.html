@@ -24,7 +24,7 @@
           </ion-row>
           <ion-row>
               <ion-col>
-                     <ion-progress-bar value="0.5"></ion-progress-bar>
+                     <ion-progress-bar [value]="participants[1].team[0].pv / 100"></ion-progress-bar>
               </ion-col>
               <ion-col>
 
@@ -56,7 +56,7 @@
               <ion-col>   
               </ion-col>  
               <ion-col class="height">
-                  <ion-progress-bar value="0.5"></ion-progress-bar>
+                  <ion-progress-bar [value]="participants[0].team[0].pv / 100"></ion-progress-bar>
               </ion-col>                           
           </ion-row>
           <ion-row>
@@ -68,7 +68,7 @@
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-button color="success" class="ion-color ion-color-success button button-solid ion-activatable ion-focusable hydrated" [disabled]="participants[0].tour">Attaque 1</ion-button>
+                  <ion-button (click)="setTour()" color="success" class="ion-color ion-color-success button button-solid ion-activatable ion-focusable hydrated" [disabled]="participants[0].tour">Attaque 1</ion-button>
                 </ion-col> 
               </ion-row>                                      
             </ion-col>

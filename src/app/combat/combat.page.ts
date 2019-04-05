@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {PokemonService} from '../services/pokemon/pokemon.service';
 import {Pokemon} from '../class/pokemon/pokemon';
-import {ToastController, BooleanValueAccessor} from '@ionic/angular';
+import {ToastController, BooleanValueAccessor, AlertController} from '@ionic/angular';
 import {PartieService} from '../services/partie/partie.service';
 import {ParticipantService} from '../services/participant/participant.service';
 import {PokemonApiService} from '../services/pokemon/pokemon-api.service';
 import {Participant} from '../class/participant/participant';
 import * as firebase from 'firebase';
 import {Partie} from '../class/partie/partie';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-combat',
@@ -23,13 +24,15 @@ export class CombatPage implements OnInit {
     owner: boolean = false
 
     participants: Participant[] =
-        [];
+        [new Participant(), new Participant()];
 
     constructor(private pokemonService: PokemonService,
                 private participantService: ParticipantService,
                 private pokemonApiService : PokemonApiService,
                 public toastController: ToastController,
-                private partieService: PartieService) {
+                private partieService: PartieService,
+                public alertController: AlertController,
+                public router: Router) {
     }
 
     ngOnInit() {
@@ -46,14 +49,19 @@ export class CombatPage implements OnInit {
         var self = this;
         firebase.database().ref('/parties/' + this.partieService.partie.id).on('value', function (snapshot) {
             self.partieService.partie = new Partie(snapshot.toJSON())
-            if (self.owner){
+            if (self.owner) {
                 self.participants[0] = self.partieService.partie.proprietaire
+                self.participants[1] = self.partieService.partie.joueur2
             }
-            else{
+            else {
                 self.participants[0] = self.partieService.partie.joueur2
+                self.participants[1] = self.partieService.partie.proprietaire
+            }
+            if (self.participants[0].team[0].pv <= 0) {
+                self.home()
             }
 
-      });
+        });
 
     }
 
@@ -64,8 +72,21 @@ export class CombatPage implements OnInit {
 
     }
 
-    play() {
+    async home() {
+        var alert = await this.alertController.create({
+            header: 'Partie terminé !',
+            message: "Vous avez perdu ! :'(",
+            buttons: [{
+                text: 'Retour accueil',
+                handler: () => {
+                    this.router.navigate(['/home']);
 
+                    console.log('Confirm Okay');
+                }
+            }
+            ]
+        });
+        alert.present();
     }
 
     showInfo(id) {
@@ -73,8 +94,79 @@ export class CombatPage implements OnInit {
         console.log(info);
     }
 
-    getTour() {
-        console.log("test")
+    async setTour() {
+        console.log(this.participants[1].team[0].pv)
+
+        this.participants[1].team[0].pv -= this.randomPower()
+        console.log(this.participants[1].team[0].pv)
+        var pvAdversaire = this.participants[1].team[0].pv
+        if (this.owner) {
+            //envoie partie en bdd
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/proprietaire/tour").set(!this.participants[0].tour, function (error) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('succès');
+                }
+            });
+            //envoie partie en bdd
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/joueur2/tour").set(!this.participants[1].tour, function (error) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('succès');
+                }
+            });
+
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/joueur2/team/0/pv").set(pvAdversaire, function (error) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('succès');
+                }
+            });
+        }
+        else {
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/joueur2/tour").set(!this.participants[0].tour, function (error) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('succès');
+                }
+            });
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/proprietaire/tour").set(!this.participants[1].tour, function (error) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('succès');
+                }
+            });
+
+            firebase.database().ref('parties/' + this.partieService.partie.id + "/proprietaire/team/0/pv").set(pvAdversaire, function (error) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('succès');
+                }
+            });
+
+            if (pvAdversaire <= 0) {
+                var alert = await this.alertController.create({
+                    header: 'Partie terminé !',
+                    message: 'Vous avez gagné !',
+                    buttons: [{
+                            text: 'Retour accueil',
+                            handler: () => {
+                                this.router.navigate(['/home']);
+
+                                console.log('Confirm Okay');
+                            }
+                        }
+                    ]
+                });
+                alert.present();
+            }
+        }
     }
 
     getRandomValue(min, max) {
@@ -92,6 +184,6 @@ export class CombatPage implements OnInit {
     }
 
     randomPower() {
-        this.getRandomValue(0, 100);
+        return this.getRandomValue(0, 100);
     }
 }
