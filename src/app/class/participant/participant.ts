@@ -7,7 +7,7 @@ export class Participant {
             this.pseudo = json.pseudo;
             this.pret = json.pret;
             this.team = json.team;
-            this.room = json.room;
+            this.tour = json.tour;
         }
     }
 
@@ -15,5 +15,5 @@ export class Participant {
     pseudo: string;
     pret: boolean = false;
     team:Pokemon[];
-    room: boolean = false;
+    tour: boolean = false;
 }

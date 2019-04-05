@@ -20,6 +20,8 @@ export class CombatPage implements OnInit {
     currentPlayer: any;
     teamCount: any;
 
+    owner: boolean = false
+
     participants: Participant[] =
         [];
 
@@ -34,6 +36,7 @@ export class CombatPage implements OnInit {
         if (this.partieService.partie.proprietaire == this.participantService.moi) {
             this.participants.push(this.partieService.partie.joueur2);
             this.participants.push(this.partieService.partie.proprietaire);
+            this.owner = true
         }
         else {
             this.participants.push(this.partieService.partie.proprietaire);
@@ -42,6 +45,7 @@ export class CombatPage implements OnInit {
 
         var self = this;
         firebase.database().ref('/parties/' + this.partieService.partie.id).on('value', function (snapshot) {
+            self.partieService.partie = new Partie(snapshot.toJSON())
 
       });
 
@@ -64,25 +68,7 @@ export class CombatPage implements OnInit {
     }
 
     getTour() {
-        if (this.participants.length < 0) {
-            if (participants[0] == partieService.partie.proprietaire) {
-                if (partieService.partie.tourProprietaire == true) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            else if (participants[0] == partieService.partie.joueur2) {
-                if (partieService.partie.tourJoueur2 == true) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-
-        }
+        console.log("test")
     }
 
     getRandomValue(min, max) {
