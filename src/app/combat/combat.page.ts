@@ -36,6 +36,7 @@ export class CombatPage implements OnInit {
     }
 
     ngOnInit() {
+
         if (this.partieService.partie.proprietaire == this.participantService.moi) {
             this.participants.push(this.partieService.partie.joueur2);
             this.participants.push(this.partieService.partie.proprietaire);
@@ -58,7 +59,7 @@ export class CombatPage implements OnInit {
                 self.participants[1] = self.partieService.partie.proprietaire
             }
             if (self.participants[0].team[0].pv <= 0) {
-                self.home()
+                self.homeLoose()
             }
 
         });
@@ -72,7 +73,23 @@ export class CombatPage implements OnInit {
 
     }
 
-    async home() {
+    async homeWin() {
+        var alert = await this.alertController.create({
+            header: 'Partie terminé !',
+            message: "Vous avez gagné !",
+            buttons: [{
+                text: 'Retour accueil',
+                handler: () => {
+                    this.router.navigate(['/home']);
+
+                    console.log('Confirm Okay');
+                }
+            }
+            ]
+        });
+        alert.present();
+    }
+    async homeLoose() {
         var alert = await this.alertController.create({
             header: 'Partie terminé !',
             message: "Vous avez perdu ! :'(",
@@ -151,20 +168,7 @@ export class CombatPage implements OnInit {
             });
 
             if (pvAdversaire <= 0) {
-                var alert = await this.alertController.create({
-                    header: 'Partie terminé !',
-                    message: 'Vous avez gagné !',
-                    buttons: [{
-                            text: 'Retour accueil',
-                            handler: () => {
-                                this.router.navigate(['/home']);
-
-                                console.log('Confirm Okay');
-                            }
-                        }
-                    ]
-                });
-                alert.present();
+                this.homeWin()
             }
         }
     }
