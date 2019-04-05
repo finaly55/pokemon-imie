@@ -23,6 +23,7 @@ export class HomePage {
     unPokemon: Pokemon;
     id: number;
     image: any;
+    imageBack : any;
     range: number = 0;
     increment: number = 20;
     pokemonNumber: number;
@@ -60,13 +61,16 @@ export class HomePage {
                         let pokemon: any = res;
                         this.id = pokemon.id;
                         this.image = pokemon.sprites.front_default;
+                        this.imageBack = pokemon.sprites.back_default;
 
                         if (this.image != null) {
                             const unPokemon: Pokemon =
                                 {
                                     id: this.id,
                                     nom: pokemon.forms[0].name,
-                                    image: this.image
+                                    image: this.image,
+                                    imageBack : this.imageBack,
+                                    pv: this.randomPv()
                                 };
                             this.listePokemon.push(unPokemon);
                         }
@@ -96,6 +100,18 @@ export class HomePage {
         }
 
     }
+
+
+    randomPv() {
+      return this.getRandomValue(70, 120)
+    }
+    
+    getRandomValue(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+  }
+
 
     isInTeam(pokemon: Pokemon) {
         return this.participant.team.some(p => p === pokemon);
@@ -151,6 +167,7 @@ export class HomePage {
                         var maPartie: Partie = new Partie();
                         maPartie.id = this.getIdHasard();
                         maPartie.proprietaire = this.participant;
+                        console.log(maPartie)
 
                         //envoie partie en bdd
                         firebase.database().ref('parties/' + maPartie.id).set(maPartie, function (error) {
@@ -228,7 +245,6 @@ export class HomePage {
                         firebase.database().ref('parties/' + value).child('enCours').set(true);
                         firebase.database().ref('parties/' + value).once('value', function (snapshot) {
                             self.partieService.partie = new Partie(snapshot.toJSON())
-                            console.log(self.partieService.partie)
                             self.lancerCombat();
                         })
                     }
@@ -244,7 +260,6 @@ export class HomePage {
             snapshot.forEach(function (childSnapshot) {
                 var partie = new Partie(childSnapshot.toJSON())
                 var unParticipant: Participant = new Participant(partie.proprietaire);
-                console.log(partie)
                 listeParticipants.push(unParticipant);
                 if (unParticipant.id != self.participant.id && partie.enCours == false && partie.estTermine == false) {
                     self.inputs.push({

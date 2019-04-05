@@ -13,12 +13,12 @@
           <ion-row>
               <ion-col>
                   <ion-chip>
-                      <ion-label>{{ participants[0].pseudo}}</ion-label>
+                      <ion-label>{{ participants[1].pseudo}}</ion-label>
                   </ion-chip>
               </ion-col>
               <ion-col class="ion-justify-content-end">
                   <ion-chip>
-                      <ion-label>nom Pokemon</ion-label>
+                      <ion-label>{{ participants[1].team[0].nom }}</ion-label>
                   </ion-chip>                
               </ion-col>
           </ion-row>
@@ -32,7 +32,7 @@
           </ion-row> 
           <ion-row>
             <ion-col class="ion-justify-content-end">
-              <img class="pokeImage" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png">
+              <img class="pokeImage" src={{participants[1].team[0].image}}>
             </ion-col>
 
           </ion-row>         
@@ -43,12 +43,12 @@
           <ion-row>
               <ion-col>
                   <ion-chip>
-                      <ion-label>nom Pokemon</ion-label>
+                      <ion-label>{{ participants[0].team[0].nom }}</ion-label>
                   </ion-chip>
               </ion-col>
               <ion-col class="ion-justify-content-end">
                   <ion-chip>
-                      <ion-label>{{ participants[1].pseudo}}</ion-label>
+                      <ion-label>{{ participants[0].pseudo}}</ion-label>
                   </ion-chip>                
               </ion-col>              
           </ion-row>
@@ -61,31 +61,16 @@
           </ion-row>
           <ion-row>
             <ion-col>
-                <img class="pokeImage2" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/2.png">
+                <img class="pokeImage2" src={{participants[0].team[0].imageBack}}>
             </ion-col>
             <ion-col>
               <ion-row>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-button color="success" class="ion-color ion-color-success button button-solid ion-activatable ion-focusable hydrated" >Attaque 1</ion-button>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                  <ion-col>
-                      <ion-button color="success" class="ion-color ion-color-success button button-solid ion-activatable ion-focusable hydrated" >Attaque 1</ion-button>
-                  </ion-col>
-              </ion-row> 
-              <ion-row>
-                  <ion-col>
-                      <ion-button color="success" class="ion-color ion-color-success button button-solid ion-activatable ion-focusable hydrated" >Attaque 1</ion-button>
-                  </ion-col>
-              </ion-row>
-              <ion-row>
-                  <ion-col>
-                      <ion-button color="success" class="ion-color ion-color-success button button-solid ion-activatable ion-focusable hydrated" >Attaque 1</ion-button>
-                  </ion-col>
-              </ion-row>                                           
+                  <ion-button color="success" class="ion-color ion-color-success button button-solid ion-activatable ion-focusable hydrated" [disabled]="partieService.partie.tour">Attaque 1</ion-button>
+                </ion-col> 
+              </ion-row>                                      
             </ion-col>
           </ion-row>
       </ion-grid>
