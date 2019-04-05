@@ -31,7 +31,6 @@ export class WaitPage implements OnInit {
         participant.id = snapshot.val().owner.id,
         participant.pseudo = snapshot.val().owner.pseudo,
         participant.pret = snapshot.val().owner.pret,
-        participant.room = true,
         participant.team = [snapshot.val().owner.team]
       
       console.log(participant)
