@@ -131,7 +131,7 @@ export class HomePage {
                     text: 'Rejoindre une room',
                     handler: data => {
                         this.participant.pseudo = data.pseudo;
-                        this.participant.room = false;
+                        this.participant.tour = false;
 
                         this.participantService.moi = this.participant
                         //envoie participant actuel en bdd
