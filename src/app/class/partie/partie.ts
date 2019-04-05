@@ -6,7 +6,8 @@ export class Partie {
     joueur2: Participant
     enCours: boolean = false
     estTermine: boolean = false
-    tour: boolean = false
+    tourProprietaire: boolean = true
+    tourJoueur2: boolean = false
 
     constructor(json?:any) {
         if (json) {
@@ -16,7 +17,8 @@ export class Partie {
             this.joueur2 = json.joueur2;
             this.enCours = json.enCours;
             this.estTermine = json.estTermine;
-            this.tour = json.tour
+            this.tourProprietaire = json.tourProprietaire
+            this.tourJoueur2 = json.tourJoueur2
         }
     }
 }
