@@ -28,7 +28,7 @@ export class HomePage {
     increment: number = 20;
     pokemonNumber: number;
     searchPokemon: string;
-
+    tour: boolean = false
     //ARRAY POKEMON
     listePokemon: Pokemon[] = [];
     private alert;
@@ -45,6 +45,7 @@ export class HomePage {
     }
 
     ngOnInit() {
+        this.tour = this.getTour()
         this.participant.team = this.listePokemonTeam;
         this.participant.id = this.getIdHasard();
         this.loadPokemons();
@@ -105,7 +106,15 @@ export class HomePage {
     randomPv() {
       return this.getRandomValue(70, 120)
     }
-    
+
+    getTour(){
+        if (this.getRandomValue(0,1) == 0){
+            return true
+        }
+        else{
+            return false
+        }
+    }
     getRandomValue(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
@@ -131,7 +140,7 @@ export class HomePage {
                     text: 'Rejoindre une room',
                     handler: data => {
                         this.participant.pseudo = data.pseudo;
-                        this.participant.tour = false;
+                        this.participant.tour = this.tour;
 
                         this.participantService.moi = this.participant
                         //envoie participant actuel en bdd
@@ -150,7 +159,7 @@ export class HomePage {
                     text: 'Ouvrir une room',
                     handler: data => {
                         this.participant.pseudo = data.pseudo;
-                        this.participant.tour = true;
+                        this.participant.tour = !this.tour;
 
                         this.participantService.moi = this.participant
 

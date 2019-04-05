@@ -62,6 +62,10 @@ export class CombatPage implements OnInit {
                 self.homeLoose()
             }
 
+            if (self.participants[1].team[0].pv <= 0) {
+                self.homeWin()
+            }
+
         });
 
     }
@@ -167,9 +171,6 @@ export class CombatPage implements OnInit {
                 }
             });
 
-            if (pvAdversaire <= 0) {
-                this.homeWin()
-            }
         }
     }
 
