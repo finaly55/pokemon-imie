@@ -132,6 +132,7 @@ export class HomePage {
             inputs: [
                 {
                     name: 'pseudo',
+                    value: this.participant.pseudo,
                     placeholder: 'Pseudo'
                 },
             ],

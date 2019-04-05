@@ -12,7 +12,7 @@ export class Participant {
     }
 
     id: string
-    pseudo: string;
+    pseudo: string = "";
     pret: boolean = false;
     team:Pokemon[];
     tour: boolean = false;
