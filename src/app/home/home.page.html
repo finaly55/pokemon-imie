@@ -3,7 +3,7 @@
 </ion-header>
 
 <ion-content>
-    <ion-card>
+    <ion-card class="cardFavoris">
         <ion-card-header>
             Ma team : {{ listePokemonTeam.length }}/6
         </ion-card-header>
@@ -11,10 +11,13 @@
         <ion-list>
             <div class="equipe">
                 <div *ngFor="let pokemon of listePokemonTeam" class="card">
-                    <img class="img-pokemon" src="{{pokemon.image}}">
-                    <ion-card-header>
-                        {{ pokemon.nom }}
-                    </ion-card-header>
+                    <div id="imgAndicon">
+                        <img class="img-pokemon" src="{{pokemon.image}}">
+                        <ion-icon class="iconRemove" (click)="setTeam(pokemon)" name="remove-circle-outline"></ion-icon>
+                    </div>
+                        <ion-card-header>
+                            {{ pokemon.nom }}
+                        </ion-card-header>
                 </div>
             </div>
         </ion-list>

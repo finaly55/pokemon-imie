@@ -15,26 +15,51 @@ ion-card-header {
   }
 }
 
-.equipe {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  height: 130px;
 
-  .card {
-    display: inline-block;
-    margin: 0px 20px 11px 20px;
-  }
-  .card img {
-    border-radius: 100%;
-    background-color: #1e20235c;
-  }
-  .card ion-card-header {
-    padding-bottom: 0;
-    padding-top: 6px;
-    color: gray;
+
+.cardFavoris {
+  width: auto;
+  .equipe {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: auto;
+
+    .card {
+      display: inline-block;
+      margin: 0px 20px 11px 20px;
+      height: auto  ;
+    }
+
+    .img-pokemon {
+      height: 96px;
+      width: 96px;
+    }
+
+    #imgAndicon {
+      position: relative;
+      img {
+        border-radius: 100%;
+        background-color: #1e20235c;
+      }
+
+      .iconRemove {
+        position: absolute;
+        top: 0px;
+        left: 80px;
+        color: black;
+      }
+    }
+
+    ion-card-header {
+      padding-bottom: 0;
+      padding-top: 6px;
+      color: gray;
+    }
+
   }
 }
+
 .liste-pokemon {
   white-space: nowrap;
   max-width: 339px;
